@@ -1,11 +1,14 @@
 package com.loja.pedidos.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
-@Entity(name = "produtos")
+@Entity
+@Table(name = "produtos")
 @Data
 public class Produto {
     @GeneratedValue
@@ -19,6 +22,7 @@ public class Produto {
     @Column(name = "valor")
     private Double valor;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "produtos")
-    private List<Pedido> pedidos;
+    private Set<Pedido> pedidos;
 }

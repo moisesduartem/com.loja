@@ -1,11 +1,13 @@
 package com.loja.pedidos.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
-@Entity(name = "pedidos")
+@Entity
+@Table(name = "pedidos")
 @Data
 public class Pedido {
     @GeneratedValue
@@ -13,6 +15,7 @@ public class Pedido {
     @Column(name = "cod_pedido")
     private Integer id;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "cod_cliente")
     private Cliente cliente;
@@ -23,5 +26,10 @@ public class Pedido {
         joinColumns = @JoinColumn(name = "cod_pedido", referencedColumnName = "cod_pedido"),
         inverseJoinColumns = @JoinColumn(name ="cod_produto", referencedColumnName = "cod_produto")
     )
-    private List<Produto> produtos;
+    private Set<Produto> produtos;
+
+    public Pedido(Cliente cliente, Set<Produto> produtos) {
+        this.cliente = cliente;
+        this.produtos = produtos;
+    }
 }
