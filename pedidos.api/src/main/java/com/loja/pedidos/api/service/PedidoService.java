@@ -39,7 +39,7 @@ public class PedidoService {
 
         PedidoCadastradoEvent event = new PedidoCadastradoEvent(
                 pedido.getId(),
-                "avenida x, rua y, 1234");
+                cadastroDto.getEndereco().trim().toUpperCase());
 
         byte[] data = SerializationUtils.serialize(event);
 
