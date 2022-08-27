@@ -2,6 +2,7 @@ package com.loja.pedidos.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -9,6 +10,7 @@ import java.util.Set;
 @Entity
 @Table(name = "pedidos")
 @Data
+@NoArgsConstructor
 public class Pedido {
     @GeneratedValue
     @Id

@@ -2,6 +2,7 @@ package com.loja.pedidos.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "produtos")
-@Data
+@Getter
 public class Produto {
     @GeneratedValue
     @Id
