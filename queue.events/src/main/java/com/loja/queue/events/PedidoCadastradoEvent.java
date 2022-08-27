@@ -10,4 +10,12 @@ public class PedidoCadastradoEvent implements Serializable {
         this.pedidoId = pedidoId;
         this.endereco = endereco;
     }
+
+    public Integer getPedidoId() {
+        return pedidoId;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
 }
