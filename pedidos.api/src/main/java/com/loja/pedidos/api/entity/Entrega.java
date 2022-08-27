@@ -3,7 +3,6 @@ package com.loja.pedidos.api.entity;
 import lombok.Getter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "entregas")
