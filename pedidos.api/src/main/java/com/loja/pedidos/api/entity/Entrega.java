@@ -1,5 +1,6 @@
 package com.loja.pedidos.api.entity;
 
+import com.loja.pedidos.api.valueobjects.EnderecoEntrega;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -17,10 +18,16 @@ public class Entrega {
     @JoinColumn(name = "cod_pedido")
     private Pedido pedido;
 
-    @Column(name = "endereco_entrega")
-    private String endereco;
+    @Embedded
+    @AttributeOverrides({
+        @AttributeOverride(name = "numero", column = @Column(name = "numero_endereco")),
+        @AttributeOverride(name = "logradouro", column = @Column(name = "logradouro")),
+        @AttributeOverride(name = "cep", column = @Column(name = "cep")),
+        @AttributeOverride(name = "complemento", column = @Column(name = "complemento")),
+    })
+    private EnderecoEntrega endereco;
 
-    public Entrega(Pedido pedido, String endereco) {
+    public Entrega(Pedido pedido, EnderecoEntrega endereco) {
         this.pedido = pedido;
         this.endereco = endereco;
     }

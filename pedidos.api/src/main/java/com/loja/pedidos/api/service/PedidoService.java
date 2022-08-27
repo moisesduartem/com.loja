@@ -4,11 +4,12 @@ import com.loja.pedidos.api.dto.CadastrarPedidoDto;
 import com.loja.pedidos.api.entity.Cliente;
 import com.loja.pedidos.api.entity.Pedido;
 import com.loja.pedidos.api.entity.Produto;
+import com.loja.pedidos.api.factories.EventFactory;
 import com.loja.pedidos.api.queue.QueueSender;
 import com.loja.pedidos.api.repository.ClienteRepository;
 import com.loja.pedidos.api.repository.PedidoRepository;
 import com.loja.pedidos.api.repository.ProdutoRepository;
-import com.loja.queue.events.PedidoCadastradoEvent;
+import com.loja.shared.events.CadastrarEntregaEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.utils.SerializationUtils;
@@ -25,10 +26,15 @@ public class PedidoService {
 
     @Autowired
     private PedidoRepository pedidoRepository;
+
     @Autowired
     private ClienteRepository clienteRepository;
+
     @Autowired
     private ProdutoRepository produtoRepository;
+
+    @Autowired
+    private EventFactory pedidoCadastradoEventFactory;
 
     @Autowired
     private QueueSender queueSender;
@@ -46,9 +52,10 @@ public class PedidoService {
         pedidoRepository.save(pedido);
 
         logger.info("Pedido cadastrado com sucesso, id={}", pedido.getId());
-        PedidoCadastradoEvent event = new PedidoCadastradoEvent(
-                pedido.getId(),
-                cadastroDto.getEndereco().trim().toUpperCase());
+        CadastrarEntregaEvent event = pedidoCadastradoEventFactory.createCadastrarEntregaEvent(
+                pedido,
+                cadastroDto.getEndereco().toEntity()
+        );
 
         logger.info(
                 "Serializando evento com pedidoId={} e endereco={}",
@@ -58,7 +65,7 @@ public class PedidoService {
         byte[] data = SerializationUtils.serialize(event);
 
         logger.info("Enviando evento de pedidoId={} para fila", event.getPedidoId());
-        queueSender.send("pedido_cadastrado", data);
+        queueSender.send("cadastrar_entrega", data);
 
         logger.info("Evento de criação do pedido enviado para fila com sucesso");
         logger.info("Retornando pedido criado");
