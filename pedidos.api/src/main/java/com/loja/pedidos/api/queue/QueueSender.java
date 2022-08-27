@@ -10,8 +10,8 @@ public class QueueSender {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    public void send(String queueName, String message) {
+    public void send(String queueName, byte[] data) {
         Queue queue = new Queue(queueName, true);
-        rabbitTemplate.convertAndSend(queue.getName(), message);
+        rabbitTemplate.convertAndSend(queue.getName(), data);
     }
 }
