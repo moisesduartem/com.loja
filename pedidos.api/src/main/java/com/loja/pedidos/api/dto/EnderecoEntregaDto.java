@@ -1,14 +1,17 @@
 package com.loja.pedidos.api.dto;
 
 import com.loja.pedidos.api.valueobjects.EnderecoEntrega;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Getter
-@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class EnderecoEntregaDto {
 
     @NotNull
